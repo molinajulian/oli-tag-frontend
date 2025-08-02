@@ -109,9 +109,9 @@ export const api = {
         user_agent: navigator.userAgent,
         timestamp: new Date().toISOString(),
       })
-    } catch (error) {
+    } catch (_error) {
       // Don't throw error for scan events, just log it
-      console.error('Failed to record scan event:', error)
+      console.error('Failed to record scan event:', _error)
     }
   },
 

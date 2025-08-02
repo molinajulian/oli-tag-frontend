@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -28,9 +28,29 @@ export default function ProfilePage() {
   const params = useParams()
   const { t } = useLanguage()
   const [profile, setProfile] = useState<PetProfile | null>(null)
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null)
+  const [_userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null)
   const [hasNotified, setHasNotified] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
+
+  const sendLocationNotification = useCallback(async (location: { lat: number; lng: number } | null) => {
+    if (!profile) return
+
+    console.log("Sending notification to:", profile.ownerEmail)
+    console.log("Location:", location)
+
+    const notificationData = {
+      tagId: params.id,
+      petName: profile.petName,
+      ownerEmail: profile.ownerEmail,
+      scanTime: new Date().toISOString(),
+      location: location ? `${location.lat}, ${location.lng}` : "Location not available",
+      mapUrl: location ? `https://maps.google.com/?q=${location.lat},${location.lng}` : null,
+    }
+
+    const notifications = JSON.parse(localStorage.getItem("notifications") || "[]")
+    notifications.push(notificationData)
+    localStorage.setItem("notifications", JSON.stringify(notifications))
+  }, [profile, params.id])
 
   useEffect(() => {
     // Load profile data
@@ -62,29 +82,11 @@ export default function ProfilePage() {
         },
       )
     }
-  }, [params.id, hasNotified, isOwner])
-
-  const sendLocationNotification = async (location: { lat: number; lng: number } | null) => {
-    if (!profile) return
-
-    console.log("Sending notification to:", profile.ownerEmail)
-    console.log("Location:", location)
-
-    const notificationData = {
-      tagId: params.id,
-      petName: profile.petName,
-      ownerEmail: profile.ownerEmail,
-      scanTime: new Date().toISOString(),
-      location: location ? `${location.lat}, ${location.lng}` : "Location not available",
-      mapUrl: location ? `https://maps.google.com/?q=${location.lat},${location.lng}` : null,
-    }
-
-    const notifications = JSON.parse(localStorage.getItem("notifications") || "[]")
-    notifications.push(notificationData)
-    localStorage.setItem("notifications", JSON.stringify(notifications))
-  }
+  }, [params.id, hasNotified, isOwner, sendLocationNotification])
 
   const handleShare = async () => {
+    if (!profile) return
+    
     const shareData = {
       title: `${profile.petName} - Oli Tag`,
       text: t("shareOliTag"),
@@ -100,12 +102,12 @@ export default function ProfilePage() {
         await navigator.clipboard.writeText(window.location.origin)
         alert(t("linkCopied"))
       }
-    } catch (error) {
+    } catch (_error) {
       // If share fails or is cancelled, try clipboard as fallback
       try {
         await navigator.clipboard.writeText(window.location.origin)
         alert(t("linkCopied"))
-      } catch (clipboardError) {
+      } catch (_clipboardError) {
         // Final fallback: show the URL to copy manually
         const url = window.location.origin
         prompt(t("copyLinkPrompt"), url)
@@ -119,10 +121,10 @@ export default function ProfilePage() {
         <Card className="w-full max-w-md">
           <CardContent className="text-center py-6 sm:py-8">
             <AlertTriangle className="h-10 w-10 sm:h-12 sm:w-12 text-orange-500 mx-auto mb-4" />
-            <h2 className="text-lg sm:text-xl font-semibold mb-2">{t("oliTagNotConfigured")}</h2>
-            <p className="text-gray-600 mb-4 text-sm sm:text-base">{t("oliTagNotConfiguredDescription")}</p>
+            <h2 className="text-lg sm:text-xl font-semibold mb-2">{t("tagNotConfigured")}</h2>
+            <p className="text-gray-600 mb-4 text-sm sm:text-base">{t("tagNotConfiguredDescription")}</p>
             <Button asChild className="bg-orange-500 hover:bg-orange-600">
-              <Link href={`/setup/${params.id}`}>{t("setupNow")}</Link>
+              <Link href={`/setup/${params.id}`}>{t("configureNow")}</Link>
             </Button>
           </CardContent>
         </Card>

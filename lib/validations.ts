@@ -64,5 +64,5 @@ export type PetProfileForm = z.infer<typeof petProfileFormSchema>
 export type OwnerContactForm = z.infer<typeof ownerContactFormSchema>
 export type TagSetupForm = z.infer<typeof tagSetupFormSchema>
 export type TagCode = z.infer<typeof tagCodeSchema>
-export type ApiResponse<T = any> = Omit<z.infer<typeof apiResponseSchema>, 'data'> & { data?: T }
+export type ApiResponse<T = unknown> = Omit<z.infer<typeof apiResponseSchema>, 'data'> & { data?: T }
 export type PetProfileResponse = z.infer<typeof petProfileResponseSchema>

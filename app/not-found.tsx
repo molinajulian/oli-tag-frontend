@@ -1,13 +1,13 @@
 "use client"
 
-import { useLanguage } from "@/contexts/LanguageContext"
+// import { useLanguage } from "@/contexts/LanguageContext"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Home, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
 export default function NotFound() {
-  const { t } = useLanguage()
+  // const { t } = useLanguage()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-100 flex items-center justify-center p-4">
