@@ -7,15 +7,18 @@ import { translations, type Language, type TranslationKey } from "@/lib/translat
 interface LanguageContextType {
   language: Language
   setLanguage: (lang: Language) => void
-  t: (key: TranslationKey) => string
+  t: (key: TranslationKey) => string | string[]
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<Language>("es")
+  const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
+    if (initialized) return // Prevent multiple initializations
+
     // Check for saved language preference
     const savedLanguage = localStorage.getItem("oli-tag-language") as Language
     if (savedLanguage && (savedLanguage === "es" || savedLanguage === "en")) {
@@ -29,14 +32,15 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         setLanguageState("es") // Default to Spanish
       }
     }
-  }, [])
+    setInitialized(true)
+  }, [initialized])
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang)
     localStorage.setItem("oli-tag-language", lang)
   }
 
-  const t = (key: TranslationKey): string => {
+  const t = (key: TranslationKey): string | string[] => {
     return translations[language][key] || translations.es[key] || key
   }
 

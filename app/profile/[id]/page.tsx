@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Heart, Phone, Mail, MapPin, User, Stethoscope, AlertTriangle, Share2, Edit } from "lucide-react"
 import { useParams } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import { useLanguage } from "@/contexts/LanguageContext"
 
 interface PetProfile {
@@ -62,9 +63,11 @@ export default function ProfilePage() {
     // Check if this is the owner viewing (simple check for demo)
     const ownerCheck = localStorage.getItem(`owner-${params.id}`)
     setIsOwner(!!ownerCheck)
+  }, [params.id])
 
-    // Get user location and send notification (only if not owner)
-    if (navigator.geolocation && !hasNotified && !isOwner) {
+  useEffect(() => {
+    // Get user location and send notification (only if not owner and profile is loaded)
+    if (navigator.geolocation && !hasNotified && !isOwner && profile) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const location = {
@@ -82,14 +85,14 @@ export default function ProfilePage() {
         },
       )
     }
-  }, [params.id, hasNotified, isOwner, sendLocationNotification])
+  }, [hasNotified, isOwner, profile, sendLocationNotification])
 
   const handleShare = async () => {
     if (!profile) return
     
     const shareData = {
       title: `${profile.petName} - Oli Tag`,
-      text: t("shareOliTag"),
+      text: t("shareOliTagDescription") as string,
       url: window.location.origin,
     }
 
@@ -110,7 +113,7 @@ export default function ProfilePage() {
       } catch (_clipboardError) {
         // Final fallback: show the URL to copy manually
         const url = window.location.origin
-        prompt(t("copyLinkPrompt"), url)
+        prompt(t("copyLinkPrompt") as string, url)
       }
     }
   }
@@ -154,15 +157,14 @@ export default function ProfilePage() {
           {/* Pet Profile */}
           <Card className="mb-4 sm:mb-6">
             <CardHeader className="text-center pb-4">
-              {profile.petImage && (
-                <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-4">
-                  <img
-                    src={profile.petImage || "/placeholder.svg"}
-                    alt={profile.petName}
-                    className="w-full h-full object-cover rounded-full border-4 border-white shadow-lg"
-                  />
-                </div>
-              )}
+              <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-4 relative">
+                <Image
+                  src={profile.petImage || "/placeholder.svg"}
+                  alt={profile.petName}
+                  fill
+                  className="object-cover rounded-full border-4 border-white shadow-lg"
+                />
+              </div>
               <div className="flex items-center justify-center gap-2 mb-2">
                 <CardTitle className="text-2xl sm:text-3xl">{profile.petName}</CardTitle>
                 <div className="w-6 h-6 sm:w-8 sm:h-8 bg-orange-500 rounded-full flex items-center justify-center">

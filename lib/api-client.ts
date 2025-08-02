@@ -104,8 +104,8 @@ export const api = {
       const location = await getCurrentLocation()
       
       await apiClient.post(`/api/v1/scans/${tagCode}`, {
-        latitude: location?.latitude,
-        longitude: location?.longitude,
+        latitude: location?.coords.latitude,
+        longitude: location?.coords.longitude,
         user_agent: navigator.userAgent,
         timestamp: new Date().toISOString(),
       })

@@ -86,10 +86,10 @@ export default function SetupPage() {
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <Heart className="h-5 w-5 text-orange-500" />
-                <h1 className="text-xl sm:text-3xl font-bold text-gray-900">{t("setup.title")}</h1>
+                <h1 className="text-xl sm:text-3xl font-bold text-gray-900">{t("setupTitle")}</h1>
               </div>
               <p className="text-gray-600 text-sm sm:text-base">
-                {t("setup.code")}: <span className="font-mono font-semibold">{tagId}</span>
+                {t("setupCode")}: <span className="font-mono font-semibold">{tagId}</span>
               </p>
             </div>
           </div>
@@ -100,8 +100,8 @@ export default function SetupPage() {
               <div className="flex items-center gap-3">
                 <CheckCircle className="h-5 w-5 text-green-600" />
                 <div>
-                  <p className="font-medium text-green-800 text-sm sm:text-base">{t("setup.tagFound")}</p>
-                  <p className="text-xs sm:text-sm text-green-700">{t("setup.completeInfo")}</p>
+                  <p className="font-medium text-green-800 text-sm sm:text-base">{t("tagFoundTitle")}</p>
+                  <p className="text-xs sm:text-sm text-green-700">{t("tagFoundDescription")}</p>
                 </div>
               </div>
             </CardContent>
@@ -111,20 +111,20 @@ export default function SetupPage() {
             {/* Pet Information */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg sm:text-xl">{t("setup.petInfoTitle")}</CardTitle>
-                <CardDescription className="text-sm sm:text-base">{t("setup.petInfoDescription")}</CardDescription>
+                <CardTitle className="text-lg sm:text-xl">{t("petInfoTitle")}</CardTitle>
+                <CardDescription className="text-sm sm:text-base">{t("petInfoDescription")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
                   <Label htmlFor="petName" className="text-sm sm:text-base">
-                    {t("setup.petName")} *
+                    {t("petNameLabel")} *
                   </Label>
                   <Input
                     id="petName"
                     name="petName"
                     value={formData.petName}
                     onChange={handleInputChange}
-                    placeholder={t("setup.petNamePlaceholder")}
+                    placeholder={t("petNamePlaceholder") as string}
                     required
                     className="text-sm sm:text-base"
                   />
@@ -132,7 +132,7 @@ export default function SetupPage() {
 
                 <div>
                   <Label htmlFor="petImage" className="text-sm sm:text-base">
-                    {t("setup.petImage")}
+                    {t("petPhotoLabel")}
                   </Label>
                   <div className="mt-2">
                     <input type="file" id="petImage" accept="image/*" onChange={handleImageUpload} className="hidden" />
@@ -143,7 +143,7 @@ export default function SetupPage() {
                       className="w-full text-sm sm:text-base"
                     >
                       <Upload className="h-4 w-4 mr-2" />
-                      {t("setup.uploadPhoto")}
+                      {t("uploadPhoto")}
                     </Button>
                     {imagePreview && (
                       <div className="mt-4">
@@ -159,14 +159,14 @@ export default function SetupPage() {
 
                 <div>
                   <Label htmlFor="petDescription" className="text-sm sm:text-base">
-                    {t("setup.petDescription")}
+                    {t("petDescriptionLabel")}
                   </Label>
                   <Textarea
                     id="petDescription"
                     name="petDescription"
                     value={formData.petDescription}
                     onChange={handleInputChange}
-                    placeholder={t("setup.petDescriptionPlaceholder")}
+                    placeholder={t("petDescriptionPlaceholder") as string}
                     rows={3}
                     className="text-sm sm:text-base"
                   />
@@ -174,14 +174,14 @@ export default function SetupPage() {
 
                 <div>
                   <Label htmlFor="medicalInfo" className="text-sm sm:text-base">
-                    {t("setup.medicalInfo")}
+                    {t("medicalInfoLabel")}
                   </Label>
                   <Textarea
                     id="medicalInfo"
                     name="medicalInfo"
                     value={formData.medicalInfo}
                     onChange={handleInputChange}
-                    placeholder={t("setup.medicalInfoPlaceholder")}
+                    placeholder={t("medicalInfoPlaceholder") as string}
                     rows={2}
                     className="text-sm sm:text-base"
                   />
@@ -192,28 +192,28 @@ export default function SetupPage() {
             {/* Owner Information */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg sm:text-xl">{t("setup.contactInfoTitle")}</CardTitle>
-                <CardDescription className="text-sm sm:text-base">{t("setup.contactInfoDescription")}</CardDescription>
+                <CardTitle className="text-lg sm:text-xl">{t("ownerInfoTitle")}</CardTitle>
+                <CardDescription className="text-sm sm:text-base">{t("ownerInfoDescription")}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="ownerName" className="text-sm sm:text-base">
-                      {t("setup.ownerName")} *
+                      {t("ownerNameLabel")} *
                     </Label>
                     <Input
                       id="ownerName"
                       name="ownerName"
                       value={formData.ownerName}
                       onChange={handleInputChange}
-                      placeholder={t("setup.ownerNamePlaceholder")}
+                      placeholder={t("ownerNamePlaceholder") as string}
                       required
                       className="text-sm sm:text-base"
                     />
                   </div>
                   <div>
                     <Label htmlFor="ownerPhone" className="text-sm sm:text-base">
-                      {t("setup.ownerPhone")} *
+                      {t("ownerPhoneLabel")} *
                     </Label>
                     <Input
                       id="ownerPhone"
@@ -221,7 +221,7 @@ export default function SetupPage() {
                       type="tel"
                       value={formData.ownerPhone}
                       onChange={handleInputChange}
-                      placeholder={t("setup.ownerPhonePlaceholder")}
+                      placeholder={t("ownerPhonePlaceholder") as string}
                       required
                       className="text-sm sm:text-base"
                     />
@@ -230,7 +230,7 @@ export default function SetupPage() {
 
                 <div>
                   <Label htmlFor="ownerEmail" className="text-sm sm:text-base">
-                    {t("setup.ownerEmail")} *
+                    {t("ownerEmailLabel")} *
                   </Label>
                   <Input
                     id="ownerEmail"
@@ -238,7 +238,7 @@ export default function SetupPage() {
                     type="email"
                     value={formData.ownerEmail}
                     onChange={handleInputChange}
-                    placeholder={t("setup.ownerEmailPlaceholder")}
+                    placeholder={t("ownerEmailPlaceholder") as string}
                     required
                     className="text-sm sm:text-base"
                   />
@@ -246,42 +246,42 @@ export default function SetupPage() {
 
                 <div>
                   <Label htmlFor="ownerAddress" className="text-sm sm:text-base">
-                    {t("setup.ownerAddress")}
+                    {t("ownerAddressLabel")}
                   </Label>
                   <Input
                     id="ownerAddress"
                     name="ownerAddress"
                     value={formData.ownerAddress}
                     onChange={handleInputChange}
-                    placeholder={t("setup.ownerAddressPlaceholder")}
+                    placeholder={t("ownerAddressPlaceholder") as string}
                     className="text-sm sm:text-base"
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="emergencyContact" className="text-sm sm:text-base">
-                    {t("setup.emergencyContact")}
+                    {t("emergencyContactLabel")}
                   </Label>
                   <Input
                     id="emergencyContact"
                     name="emergencyContact"
                     value={formData.emergencyContact}
                     onChange={handleInputChange}
-                    placeholder={t("setup.emergencyContactPlaceholder")}
+                    placeholder={t("emergencyContactPlaceholder") as string}
                     className="text-sm sm:text-base"
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="veterinarian" className="text-sm sm:text-base">
-                    {t("setup.veterinarian")}
+                    {t("veterinarianLabel")}
                   </Label>
                   <Input
                     id="veterinarian"
                     name="veterinarian"
                     value={formData.veterinarian}
                     onChange={handleInputChange}
-                    placeholder={t("setup.veterinarianPlaceholder")}
+                    placeholder={t("veterinarianPlaceholder") as string}
                     className="text-sm sm:text-base"
                   />
                 </div>
@@ -295,11 +295,11 @@ export default function SetupPage() {
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                t("setup.activatingTag")
+                t("activatingTag")
               ) : (
                 <>
                   <Heart className="h-4 w-4 mr-2" />
-                  {t("setup.activateTag")}
+                  {t("activateTag")}
                 </>
               )}
             </Button>

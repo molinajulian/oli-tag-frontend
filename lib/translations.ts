@@ -122,16 +122,16 @@ export const translations = {
     // Profile page
     petFound: "¡Mascota encontrada!",
     ownerNotified: "El dueño ha sido notificado automáticamente con tu ubicación.",
-    ownerInfoTitle: "Información del Dueño",
-    additionalInfoTitle: "Información Adicional",
-    emergencyContactBadge: "Contacto de Emergencia",
-    veterinarianBadge: "Veterinario",
-    medicalInfoBadge: "Información Médica",
+    ownerInformation: "Información del Dueño",
+    additionalInformation: "Información Adicional",
+    emergencyContact: "Contacto de Emergencia",
+    veterinarian: "Veterinario",
+    medicalInformation: "Información Médica",
 
     // Share section
-    helpedReuniteTitle: "¿Ayudaste a reunir a una familia?",
-    helpedReuniteDescription: "Comparte Oli Tag para que más mascotas estén protegidas",
-    shareOliTag: "Compartir Oli Tag",
+    helpedReunite: "¿Ayudaste a reunir a una familia?",
+    shareOliTagDescription: "Comparte Oli Tag para que más mascotas estén protegidas",
+    shareOliTagButton: "Compartir Oli Tag",
 
     // Errors
     tagNotConfigured: "Oli Tag no configurado",
@@ -268,16 +268,16 @@ export const translations = {
     // Profile page
     petFound: "Pet found!",
     ownerNotified: "The owner has been automatically notified with your location.",
-    ownerInfoTitle: "Owner Information",
-    additionalInfoTitle: "Additional Information",
-    emergencyContactBadge: "Emergency Contact",
-    veterinarianBadge: "Veterinarian",
-    medicalInfoBadge: "Medical Information",
+    ownerInformation: "Owner Information",
+    additionalInformation: "Additional Information",
+    emergencyContact: "Emergency Contact",
+    veterinarian: "Veterinarian",
+    medicalInformation: "Medical Information",
 
     // Share section
-    helpedReuniteTitle: "Did you help reunite a family?",
-    helpedReuniteDescription: "Share Oli Tag so more pets can be protected",
-    shareOliTag: "Share Oli Tag",
+    helpedReunite: "Did you help reunite a family?",
+    shareOliTagDescription: "Share Oli Tag so more pets can be protected",
+    shareOliTagButton: "Share Oli Tag",
 
     // Errors
     tagNotConfigured: "Oli Tag not configured",

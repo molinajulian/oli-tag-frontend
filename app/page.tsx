@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Heart, QrCode, MapPin, Bell, Smartphone } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function HomePage() {
   const { t } = useLanguage()
@@ -32,13 +33,16 @@ export default function HomePage() {
           <p className="text-lg sm:text-xl text-gray-700 max-w-2xl mx-auto px-4">{t("homeDescription")}</p>
         </div>
 
-        {/* Hero Image Placeholder */}
+        {/* Hero Image */}
         <div className="mb-8 sm:mb-12">
           <div className="max-w-md mx-auto">
-            <img
-              src="/placeholder.svg?height=300&width=400&text=Oli+con+su+chapita+QR"
-              alt={t("heroImageAlt")}
+            <Image
+              src="/fau-oli.webp"
+              alt={t("heroImageAlt") as string}
+              width={400}
+              height={320}
               className="w-full h-64 sm:h-80 object-cover rounded-2xl shadow-lg"
+              priority
             />
           </div>
         </div>

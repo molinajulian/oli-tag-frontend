@@ -1,8 +1,6 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -17,6 +15,61 @@ export default function ScanPage() {
   const router = useRouter()
   const { t } = useLanguage()
   const [tagId, setTagId] = useState("")
+
+  // Initialize demo data on component mount
+  useEffect(() => {
+    const demoProfiles = {
+      'OLI001': {
+        petName: 'Oli',
+        petDescription: 'Golden Retriever amigable y juguetón. Le encanta jugar en el parque y nadar.',
+        petImage: 'https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+        medicalInfo: 'Vacunas al día. Alérgico a ciertos alimentos con pollo. Medicamento para la artritis.',
+        ownerName: 'Fausto García',
+        ownerEmail: 'fausto@oli-tag.com',
+        ownerPhone: '+34 600 123 456',
+        ownerAddress: 'Calle Gran Vía 123, Madrid, España',
+        emergencyContact: 'Ana García - +34 600 654 321',
+        veterinarian: 'Clínica Veterinaria Madrid - Dr. López - +34 91 123 456',
+        createdAt: new Date().toISOString()
+      },
+      'OLI002': {
+        petName: 'Luna',
+        petDescription: 'Gata siamesa muy cariñosa y tranquila. Le gusta dormir al sol.',
+        petImage: 'https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+        medicalInfo: 'Esterilizada. Necesita comida especial para gatos seniors.',
+        ownerName: 'María López',
+        ownerEmail: 'maria@oli-tag.com',
+        ownerPhone: '+34 600 789 012',
+        ownerAddress: 'Avenida Diagonal 456, Barcelona, España',
+        emergencyContact: 'Carlos López - +34 600 321 987',
+        veterinarian: 'Veterinaria Barcelona - Dra. Martín - +34 93 456 789',
+        createdAt: new Date().toISOString()
+      },
+      'OLI003': {
+        petName: 'Max',
+        petDescription: 'Labrador chocolate muy energético. Le encanta correr y jugar con otros perros.',
+        petImage: 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+        medicalInfo: 'Todas las vacunas al día. Sin alergias conocidas.',
+        ownerName: 'Juan Pérez',
+        ownerEmail: 'juan@oli-tag.com',
+        ownerPhone: '+34 600 555 333',
+        ownerAddress: 'Plaza Mayor 78, Sevilla, España',
+        emergencyContact: 'Laura Pérez - +34 600 777 999',
+        veterinarian: 'Clínica Animal Sevilla - Dr. Ruiz - +34 95 888 444',
+        createdAt: new Date().toISOString()
+      }
+    }
+
+    // Only create demo data if it doesn't exist
+    Object.entries(demoProfiles).forEach(([tagId, profileData]) => {
+      const existingData = localStorage.getItem(`oli-tag-${tagId}`)
+      if (!existingData) {
+        localStorage.setItem(`oli-tag-${tagId}`, JSON.stringify(profileData))
+        // Mark as owner for demo purposes
+        localStorage.setItem(`owner-${tagId}`, 'true')
+      }
+    })
+  }, [])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -99,7 +152,7 @@ export default function ScanPage() {
                       id="tagId"
                       value={tagId}
                       onChange={(e) => setTagId(e.target.value.toUpperCase())}
-                      placeholder={t("tagCodePlaceholder")}
+                      placeholder={t("tagCodePlaceholder") as string}
                       className="text-center font-mono text-lg"
                     />
                   </div>
@@ -119,7 +172,7 @@ export default function ScanPage() {
                   <div>
                     <h3 className="font-semibold text-orange-900 mb-2 text-sm sm:text-base">{t("foundPetTitle")}</h3>
                     <ul className="text-xs sm:text-sm text-orange-800 space-y-1">
-                      {t("foundPetInstructions").map((instruction, index) => (
+                      {(t("foundPetInstructions") as string[]).map((instruction, index) => (
                         <li key={index}>• {instruction}</li>
                       ))}
                     </ul>
