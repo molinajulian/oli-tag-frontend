@@ -55,7 +55,7 @@ export const translations = {
 
     // Footer
     footerText: "Creado con ❤️ por Fausto para proteger a todas las mascotas como Oli",
-    footerCopyright: "© 2024 Oli Tag. Todos los derechos reservados.",
+    footerCopyright: "© 2025 Oli Tag. Todos los derechos reservados.",
 
     // Scan page
     scanTitle: "Escanear Oli Tag",
@@ -105,7 +105,7 @@ export const translations = {
     ownerNameLabel: "Nombre completo *",
     ownerNamePlaceholder: "Tu nombre",
     ownerPhoneLabel: "Teléfono *",
-    ownerPhonePlaceholder: "+34 600 000 000",
+    ownerPhonePlaceholder: "600 000 000",
     ownerEmailLabel: "Email *",
     ownerEmailPlaceholder: "tu@email.com",
     ownerAddressLabel: "Dirección",
@@ -114,6 +114,15 @@ export const translations = {
     emergencyContactPlaceholder: "Nombre y teléfono alternativo",
     veterinarianLabel: "Veterinario",
     veterinarianPlaceholder: "Nombre y teléfono del veterinario",
+
+    // Validation messages
+    petNameRequired: "El nombre de la mascota es requerido",
+    ownerNameRequired: "El nombre completo es requerido",
+    emailRequired: "El email es requerido",
+    emailInvalid: "Ingresa un email válido",
+    phoneRequired: "El número de teléfono es requerido",
+    phoneInvalid: "Número de teléfono inválido (incluye código de país como +34 600 000 000)",
+    phoneValid: "✓ Número de teléfono válido",
 
     // Buttons
     activateTag: "Activar Mi Oli Tag",
@@ -201,7 +210,7 @@ export const translations = {
 
     // Footer
     footerText: "Created with ❤️ by Fausto to protect all pets like Oli",
-    footerCopyright: "© 2024 Oli Tag. All rights reserved.",
+    footerCopyright: "© 2025 Oli Tag. All rights reserved.",
 
     // Scan page
     scanTitle: "Scan Oli Tag",
@@ -251,7 +260,7 @@ export const translations = {
     ownerNameLabel: "Full name *",
     ownerNamePlaceholder: "Your name",
     ownerPhoneLabel: "Phone *",
-    ownerPhonePlaceholder: "+1 555 000 0000",
+    ownerPhonePlaceholder: "555 000 0000",
     ownerEmailLabel: "Email *",
     ownerEmailPlaceholder: "you@email.com",
     ownerAddressLabel: "Address",
@@ -260,6 +269,15 @@ export const translations = {
     emergencyContactPlaceholder: "Alternative name and phone",
     veterinarianLabel: "Veterinarian",
     veterinarianPlaceholder: "Veterinarian name and phone",
+
+    // Validation messages
+    petNameRequired: "Pet name is required",
+    ownerNameRequired: "Full name is required",
+    emailRequired: "Email is required",
+    emailInvalid: "Please enter a valid email",
+    phoneRequired: "Phone number is required",
+    phoneInvalid: "Invalid phone number (include country code like +1 555 000 0000)",
+    phoneValid: "✓ Valid phone number",
 
     // Buttons
     activateTag: "Activate My Oli Tag",

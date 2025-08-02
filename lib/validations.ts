@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { parsePhoneNumber } from "libphonenumber-js"
 
 // Frontend form validation schemas for Oli Tag
 
@@ -14,7 +15,18 @@ export const petProfileFormSchema = z.object({
 export const ownerContactFormSchema = z.object({
   name: z.string().min(1, "Owner name is required").max(100, "Name is too long"),
   email: z.string().email("Invalid email address"),
-  phone: z.string().min(8, "Invalid phone number").max(20, "Phone number is too long"),
+  phone: z.string()
+    .min(1, "Phone number is required")
+    .refine((val) => {
+      try {
+        const phoneNumber = parsePhoneNumber(val)
+        return phoneNumber && phoneNumber.isValid()
+      } catch {
+        return false
+      }
+    }, {
+      message: "Invalid phone number format"
+    }),
   address: z.string().max(200, "Address is too long").optional(),
   emergencyContact: z.string().max(200, "Emergency contact is too long").optional(),
   veterinarian: z.string().max(200, "Veterinarian info is too long").optional(),

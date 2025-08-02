@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Upload, ArrowLeft, QrCode } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 
 export default function CreateProfilePage() {
@@ -125,9 +126,11 @@ export default function CreateProfilePage() {
                     </Button>
                     {imagePreview && (
                       <div className="mt-4">
-                        <img
+                        <Image
                           src={imagePreview || "/placeholder.svg"}
                           alt="Preview"
+                          width={128}
+                          height={128}
                           className="w-32 h-32 object-cover rounded-lg mx-auto"
                         />
                       </div>

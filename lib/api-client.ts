@@ -120,7 +120,7 @@ export const api = {
     try {
       const response = await apiClient.get(`/api/v1/tags/${tagCode}/availability`)
       return response.data.available
-    } catch (error) {
+    } catch {
       return false
     }
   },

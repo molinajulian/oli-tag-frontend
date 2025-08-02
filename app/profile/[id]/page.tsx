@@ -29,7 +29,7 @@ export default function ProfilePage() {
   const params = useParams()
   const { t } = useLanguage()
   const [profile, setProfile] = useState<PetProfile | null>(null)
-  const [_userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null)
+
   const [hasNotified, setHasNotified] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
 
@@ -74,7 +74,7 @@ export default function ProfilePage() {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }
-          setUserLocation(location)
+          // Location obtained but not stored locally
           sendLocationNotification(location)
           setHasNotified(true)
         },
@@ -105,12 +105,12 @@ export default function ProfilePage() {
         await navigator.clipboard.writeText(window.location.origin)
         alert(t("linkCopied"))
       }
-    } catch (_error) {
+    } catch {
       // If share fails or is cancelled, try clipboard as fallback
       try {
         await navigator.clipboard.writeText(window.location.origin)
         alert(t("linkCopied"))
-      } catch (_clipboardError) {
+      } catch {
         // Final fallback: show the URL to copy manually
         const url = window.location.origin
         prompt(t("copyLinkPrompt") as string, url)

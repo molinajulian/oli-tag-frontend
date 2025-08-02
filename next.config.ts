@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProduction = process.env.NODE_ENV === 'production';
-const isVercel = process.env.VERCEL === '1';
 
 const nextConfig: NextConfig = {
   // Image optimization for frontend
@@ -75,21 +74,19 @@ const nextConfig: NextConfig = {
     }),
   },
 
-  // ESLint configuration for production builds
+  // ESLint configuration - enforce clean code
   eslint: {
-    // Allow production builds to complete even if there are ESLint errors
-    ignoreDuringBuilds: isProduction || isVercel,
+    ignoreDuringBuilds: false,
   },
 
-  // TypeScript configuration for production builds
+  // TypeScript configuration - enforce type safety
   typescript: {
-    // Allow production builds to complete even if there are TypeScript errors
-    ignoreBuildErrors: isProduction || isVercel,
+    ignoreBuildErrors: false,
   },
 
   // Static export configuration (temporarily disabled for dynamic routes)
   // Uncomment when all dynamic routes have generateStaticParams
-  // ...((isProduction || isVercel) && {
+  // ...(isProduction && {
   //   output: 'export',
   //   trailingSlash: true,
   //   skipTrailingSlashRedirect: true,

@@ -10,8 +10,10 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Upload, ArrowLeft, Heart, CheckCircle } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useRouter, useParams } from "next/navigation"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { PhoneInput } from "@/components/ui/phone-input"
 
 export default function SetupPage() {
   const router = useRouter()
@@ -33,10 +35,19 @@ export default function SetupPage() {
   })
   const [imagePreview, setImagePreview] = useState<string>("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handlePhoneChange = (value: string | undefined) => {
+    setFormData((prev) => ({ ...prev, ownerPhone: value || "" }))
+  }
+
+  const handleFieldBlur = (fieldName: string) => {
+    setTouchedFields((prev) => ({ ...prev, [fieldName]: true }))
   }
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +65,40 @@ export default function SetupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Validate required fields
+    const requiredFields = ['petName', 'ownerName', 'ownerEmail', 'ownerPhone']
+    const newTouchedFields: Record<string, boolean> = {}
+    let hasErrors = false
+
+    requiredFields.forEach(field => {
+      newTouchedFields[field] = true
+      if (!formData[field as keyof typeof formData]) {
+        hasErrors = true
+      }
+    })
+
+    // Validate phone number specifically
+    if (formData.ownerPhone) {
+      const { parsePhoneNumber } = await import('libphonenumber-js')
+      try {
+        const phoneNumber = parsePhoneNumber(formData.ownerPhone)
+        if (!phoneNumber || !phoneNumber.isValid()) {
+          hasErrors = true
+        }
+      } catch {
+        hasErrors = true
+      }
+    } else {
+      hasErrors = true
+    }
+
+    setTouchedFields(prev => ({ ...prev, ...newTouchedFields }))
+
+    if (hasErrors) {
+      return // Don't submit if there are errors
+    }
+
     setIsSubmitting(true)
 
     try {
@@ -117,17 +162,25 @@ export default function SetupPage() {
               <CardContent className="space-y-4">
                 <div>
                   <Label htmlFor="petName" className="text-sm sm:text-base">
-                    {t("petNameLabel")} *
+                    {t("petNameLabel")}
                   </Label>
-                  <Input
-                    id="petName"
-                    name="petName"
-                    value={formData.petName}
-                    onChange={handleInputChange}
-                    placeholder={t("petNamePlaceholder") as string}
-                    required
-                    className="text-sm sm:text-base"
-                  />
+                                      <Input
+                      id="petName"
+                      name="petName"
+                      value={formData.petName}
+                      onChange={handleInputChange}
+                      onBlur={() => handleFieldBlur('petName')}
+                      placeholder={t("petNamePlaceholder") as string}
+                      required
+                      className={`text-sm sm:text-base ${
+                        touchedFields.petName && !formData.petName 
+                          ? 'border-red-500 focus-visible:ring-red-500' 
+                          : ''
+                      }`}
+                    />
+                    {touchedFields.petName && !formData.petName && (
+                      <p className="text-xs text-red-600 mt-1">{t("petNameRequired")}</p>
+                    )}
                 </div>
 
                 <div>
@@ -147,9 +200,11 @@ export default function SetupPage() {
                     </Button>
                     {imagePreview && (
                       <div className="mt-4">
-                        <img
+                        <Image
                           src={imagePreview || "/placeholder.svg"}
                           alt="Preview"
+                          width={128}
+                          height={128}
                           className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-lg mx-auto"
                         />
                       </div>
@@ -199,28 +254,33 @@ export default function SetupPage() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="ownerName" className="text-sm sm:text-base">
-                      {t("ownerNameLabel")} *
+                      {t("ownerNameLabel")}
                     </Label>
                     <Input
                       id="ownerName"
                       name="ownerName"
                       value={formData.ownerName}
                       onChange={handleInputChange}
+                      onBlur={() => handleFieldBlur('ownerName')}
                       placeholder={t("ownerNamePlaceholder") as string}
                       required
-                      className="text-sm sm:text-base"
+                      className={`text-sm sm:text-base ${
+                        touchedFields.ownerName && !formData.ownerName 
+                          ? 'border-red-500 focus-visible:ring-red-500' 
+                          : ''
+                      }`}
                     />
+                    {touchedFields.ownerName && !formData.ownerName && (
+                      <p className="text-xs text-red-600 mt-1">{t("ownerNameRequired")}</p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="ownerPhone" className="text-sm sm:text-base">
-                      {t("ownerPhoneLabel")} *
+                      {t("ownerPhoneLabel")}
                     </Label>
-                    <Input
-                      id="ownerPhone"
-                      name="ownerPhone"
-                      type="tel"
+                    <PhoneInput
                       value={formData.ownerPhone}
-                      onChange={handleInputChange}
+                      onChange={handlePhoneChange}
                       placeholder={t("ownerPhonePlaceholder") as string}
                       required
                       className="text-sm sm:text-base"
@@ -230,18 +290,29 @@ export default function SetupPage() {
 
                 <div>
                   <Label htmlFor="ownerEmail" className="text-sm sm:text-base">
-                    {t("ownerEmailLabel")} *
+                    {t("ownerEmailLabel")}
                   </Label>
-                  <Input
-                    id="ownerEmail"
-                    name="ownerEmail"
-                    type="email"
-                    value={formData.ownerEmail}
-                    onChange={handleInputChange}
-                    placeholder={t("ownerEmailPlaceholder") as string}
-                    required
-                    className="text-sm sm:text-base"
-                  />
+                                      <Input
+                      id="ownerEmail"
+                      name="ownerEmail"
+                      type="email"
+                      value={formData.ownerEmail}
+                      onChange={handleInputChange}
+                      onBlur={() => handleFieldBlur('ownerEmail')}
+                      placeholder={t("ownerEmailPlaceholder") as string}
+                      required
+                      className={`text-sm sm:text-base ${
+                        touchedFields.ownerEmail && (!formData.ownerEmail || !/\S+@\S+\.\S+/.test(formData.ownerEmail))
+                          ? 'border-red-500 focus-visible:ring-red-500' 
+                          : ''
+                      }`}
+                    />
+                    {touchedFields.ownerEmail && !formData.ownerEmail && (
+                      <p className="text-xs text-red-600 mt-1">{t("emailRequired")}</p>
+                    )}
+                    {touchedFields.ownerEmail && formData.ownerEmail && !/\S+@\S+\.\S+/.test(formData.ownerEmail) && (
+                      <p className="text-xs text-red-600 mt-1">{t("emailInvalid")}</p>
+                    )}
                 </div>
 
                 <div>
